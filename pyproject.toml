@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "contactsapp"
+version = "0.1.0"
+description = "hypermedia.systems demo app built with Django"
+authors = ["Daniel Nieto <danielnieto89@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+Django = "^4.2.7"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
