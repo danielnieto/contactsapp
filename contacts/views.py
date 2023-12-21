@@ -18,3 +18,8 @@ def contacts(request):
     else:
         contacts = Contact.objects.all()
     return render(request, "contacts/index.html", {'contacts': contacts, 'search': search})
+
+
+def contacts_new_get(request):
+    return render(request, "contacts/new.html", {'contact': Contact()})
+    
