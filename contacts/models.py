@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Contact(models.Model):
     first = models.CharField(max_length=50)
     last = models.CharField(max_length=50)
