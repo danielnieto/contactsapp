@@ -10,6 +10,7 @@ python = "^3.11"
 Django = "^4.2.7"
 djlint = "^1.34.1"
 ruff = "^0.1.9"
+pre-commit = "^3.6.0"
 
 
 [build-system]
