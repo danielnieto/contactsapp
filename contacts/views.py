@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from contacts.models import Contact
 from django.db.models import Q
+from django.views import View
 
 
 def index(request):
@@ -24,5 +25,6 @@ def contacts(request):
     )
 
 
-def contacts_new_get(request):
-    return render(request, "contacts/new.html", {"contact": Contact()})
+class ContactsNewView(View):
+    def get(self, request, *args, **kwargs):
+        return render(request, "contacts/new.html", {"contact": Contact()})
