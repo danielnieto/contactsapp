@@ -4,26 +4,13 @@
         {% csrf_token %}
         <fieldset>
             <legend>Contact values</legend>
-            <p>
-                <label for="email">Email</label>
-                {{ form.email }}
-                {% for error in form.email.errors %}<p class="box bad">{{ error }}</p>{% endfor %}
-            </p>
-            <p>
-                <label for="first">First Name</label>
-                {{ form.first }}
-                {% for error in form.first.errors %}<p class="box bad">{{ error }}</p>{% endfor %}
-            </p>
-            <p>
-                <label for="last">Last Name</label>
-                {{ form.last }}
-                {% for error in form.last.errors %}<p class="box bad">{{ error }}</p>{% endfor %}
-            </p>
-            <p>
-                <label for="phone">Phone</label>
-                {{ form.phone }}
-                {% for error in form.phone.errors %}<p class="box bad">{{ error }}</p>{% endfor %}
-            </p>
+            {% for field in form %}
+                <p>
+                    {{ field.label_tag }}
+                    {{ field }}
+                    {% for error in field.errors %}<p class="box bad">{{ error }}</p>{% endfor %}
+                </p>
+            {% endfor %}
             <button>Save</button>
         </fieldset>
     </form>
