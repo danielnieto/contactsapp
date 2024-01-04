@@ -5,6 +5,8 @@ from django.db.models import Q
 from django.views import View
 from django.contrib import messages
 
+from .forms import ContactForm
+
 
 def index(request):
     return redirect("contacts")
@@ -29,14 +31,14 @@ def contacts(request):
 
 class ContactsNewView(View):
     def get(self, request, *args, **kwargs):
-        return render(request, "contacts/new.html", {"contact": Contact()})
+        return render(request, "contacts/new.html", {"form": ContactForm()})
 
     def post(self, request, *args, **kwargs):
-        Contact.objects.create(
-            first=request.POST.get("first_name"),
-            last=request.POST.get("last_name"),
-            phone=request.POST.get("phone"),
-            email=request.POST.get("email"),
-        )
+        form = ContactForm(request.POST)
+
+        if not form.is_valid():
+            return render(request, "contacts/new.html", {"form": form})
+
+        form.save()
         messages.success(request, "Created New Contact!")
-        return redirect(reverse("contacts_new"))
+        return redirect(reverse("contacts"))
