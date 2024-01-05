@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from contacts.models import Contact
 from django.db.models import Q
@@ -27,6 +27,11 @@ def contacts(request):
     return render(
         request, "contacts/index.html", {"contacts": contacts, "search": search}
     )
+
+
+def contacts_detail(request, pk: int):
+    contact = get_object_or_404(Contact, pk=pk)
+    return render(request, "contacts/detail.html", {"contact": contact})
 
 
 class ContactsNewView(View):
