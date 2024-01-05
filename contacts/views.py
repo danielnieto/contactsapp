@@ -67,3 +67,10 @@ class ContactsEditView(View):
         form.save()
         messages.success(request, "Contact Updated!")
         return redirect(reverse("contacts_edit", kwargs={"pk": contact.id}))
+
+
+def contacts_delete(request, pk: int):
+    contact = get_object_or_404(Contact, pk=pk)
+    contact.delete()
+    messages.success(request, "Contact Deleted!")
+    return redirect(reverse("contacts"))

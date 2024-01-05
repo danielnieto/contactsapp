@@ -10,4 +10,5 @@ urlpatterns = [
     path(
         "contacts/<int:pk>/edit", views.ContactsEditView.as_view(), name="contacts_edit"
     ),
+    path("contacts/<int:pk>/delete", views.contacts_delete, name="contacts_delete"),
 ]
