@@ -1,0 +1,20 @@
+{% extends "contactsapp/base.html" %}
+{% block content %}
+    <form action="{% url 'contacts_edit' pk=contact.id %}" method="post">
+        {% csrf_token %}
+        <fieldset>
+            <legend>Contact values</legend>
+            {% for field in form %}
+                <p>
+                    {{ field.label_tag }}
+                    {{ field }}
+                    {% for error in field.errors %}<p class="box bad">{{ error }}</p>{% endfor %}
+                </p>
+            {% endfor %}
+            <button>Save</button>
+        </fieldset>
+    </form>
+    <p>
+        <a href="{% url 'contacts' %}">Back</a>
+    </p>
+{% endblock content %}

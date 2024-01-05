@@ -47,3 +47,23 @@ class ContactsNewView(View):
         form.save()
         messages.success(request, "Created New Contact!")
         return redirect(reverse("contacts"))
+
+
+class ContactsEditView(View):
+    def get(self, request, pk: int):
+        contact = get_object_or_404(Contact, pk=pk)
+        form = ContactForm(instance=contact)
+        return render(request, "contacts/edit.html", {"form": form, "contact": contact})
+
+    def post(self, request, pk: int):
+        contact = get_object_or_404(Contact, pk=pk)
+        form = ContactForm(request.POST, instance=contact)
+
+        if not form.is_valid():
+            return render(
+                request, "contacts/edit.html", {"form": form, "contact": contact}
+            )
+
+        form.save()
+        messages.success(request, "Contact Updated!")
+        return redirect(reverse("contacts_edit", kwargs={"pk": contact.id}))

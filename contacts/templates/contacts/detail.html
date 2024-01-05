@@ -7,5 +7,6 @@
     </div>
     <p>
         <a href="{% url 'contacts' %}">Back</a>
+        <a href="{% url 'contacts_edit' pk=contact.id %}">Edit</a>
     </p>
 {% endblock content %}
