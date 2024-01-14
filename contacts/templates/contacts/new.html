@@ -1,6 +1,6 @@
 {% extends "contactsapp/base.html" %}
 {% block content %}
-    <form action="{% url 'contacts_new' %}" method="post">
+    <form action="{% url 'contacts_create' %}" method="post">
         {% csrf_token %}
         <fieldset>
             <legend>Contact values</legend>

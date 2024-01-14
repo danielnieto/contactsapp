@@ -1,6 +1,6 @@
-{% extends 'contactsapp/base.html' %}
+{% extends "contactsapp/base.html" %}
 {% block content %}
-    <form action="/contacts" method="get" class="tool-bar">
+    <form action="{% url 'contacts' %}" method="get" class="tool-bar">
         <label for="search">Search Term</label>
         <input id="search" type="search" name="q" value="{{ search | default:'' }}" />
         <input type="submit" value="Search" />
@@ -23,14 +23,14 @@
                     <td>{{ contact.phone }}</td>
                     <td>{{ contact.email }}</td>
                     <td>
-                        <a href="/contacts/{{ contact.id }}/edit">Edit</a>
-                        <a href="/contacts/{{ contact.id }}">View</a>
+                        <a href="{% url 'contacts_update' pk=contact.id %}">Edit</a>
+                        <a href="{% url 'contacts_detail' pk=contact.id %}">View je</a>
                     </td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
     <p>
-        <a href="/contacts/new">Add Contact</a>
+        <a href="{% url 'contacts_create' %}">Add Contact</a>
     </p>
-{% endblock %}
+{% endblock content %}

@@ -1,6 +1,6 @@
 {% extends "contactsapp/base.html" %}
 {% block content %}
-    <form action="{% url 'contacts_edit' pk=contact.id %}" method="post">
+    <form action="{% url 'contacts_update' pk=contact.id %}" method="post">
         {% csrf_token %}
         <fieldset>
             <legend>Contact values</legend>

@@ -1,76 +1,64 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.urls import reverse
+from django.urls import reverse_lazy, reverse
 from contacts.models import Contact
 from django.db.models import Q
-from django.views import View
-from django.contrib import messages
+from django.views.generic import (
+    ListView,
+    DetailView,
+    DeleteView,
+    CreateView,
+    UpdateView,
+)
+from django.contrib.messages.views import SuccessMessageMixin
 
 from .forms import ContactForm
 
 
-def index(request):
-    return redirect("contacts")
+class ContactsListView(ListView):
+    model = Contact
+    template_name = "contacts/index.html"
+    context_object_name = "contacts"
 
-
-def contacts(request):
-    search = request.GET.get("q")
-
-    if search:
-        contacts = Contact.objects.filter(
-            Q(first__icontains=search)
-            | Q(last__icontains=search)
-            | Q(phone__icontains=search)
-            | Q(email__icontains=search)
-        )
-    else:
-        contacts = Contact.objects.all()
-    return render(
-        request, "contacts/index.html", {"contacts": contacts, "search": search}
-    )
-
-
-def contacts_detail(request, pk: int):
-    contact = get_object_or_404(Contact, pk=pk)
-    return render(request, "contacts/detail.html", {"contact": contact})
-
-
-class ContactsNewView(View):
-    def get(self, request, *args, **kwargs):
-        return render(request, "contacts/new.html", {"form": ContactForm()})
-
-    def post(self, request, *args, **kwargs):
-        form = ContactForm(request.POST)
-
-        if not form.is_valid():
-            return render(request, "contacts/new.html", {"form": form})
-
-        form.save()
-        messages.success(request, "Created New Contact!")
-        return redirect(reverse("contacts"))
-
-
-class ContactsEditView(View):
-    def get(self, request, pk: int):
-        contact = get_object_or_404(Contact, pk=pk)
-        form = ContactForm(instance=contact)
-        return render(request, "contacts/edit.html", {"form": form, "contact": contact})
-
-    def post(self, request, pk: int):
-        contact = get_object_or_404(Contact, pk=pk)
-        form = ContactForm(request.POST, instance=contact)
-
-        if not form.is_valid():
-            return render(
-                request, "contacts/edit.html", {"form": form, "contact": contact}
+    def get_queryset(self):
+        search = self.request.GET.get("q")
+        if search:
+            return Contact.objects.filter(
+                Q(first__icontains=search)
+                | Q(last__icontains=search)
+                | Q(phone__icontains=search)
+                | Q(email__icontains=search)
             )
+        return Contact.objects.all()
 
-        form.save()
-        messages.success(request, "Contact Updated!")
-        return redirect(reverse("contacts_edit", kwargs={"pk": contact.id}))
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["search"] = self.request.GET.get("q")
+        return context
 
 
-def contacts_delete(request, pk: int):
-    contact = get_object_or_404(Contact, pk=pk)
-    contact.delete()
-    messages.success(request, "Contact Deleted!")
-    return redirect(reverse("contacts"))
+class ContactsDetailView(DetailView):
+    model = Contact
+    template_name = "contacts/detail.html"
+
+
+class ContactsCreateView(SuccessMessageMixin, CreateView):
+    model = Contact
+    template_name = "contacts/new.html"
+    form_class = ContactForm
+    success_url = reverse_lazy("contacts")
+    success_message = "Created New Contact"
+
+
+class ContactsUpdateView(SuccessMessageMixin, UpdateView):
+    model = Contact
+    template_name = "contacts/edit.html"
+    form_class = ContactForm
+    success_message = "Contact Updated!"
+
+    def get_success_url(self):
+        return reverse("contacts_update", kwargs={"pk": self.object.id})
+
+
+class ContactsDeleteView(SuccessMessageMixin, DeleteView):
+    model = Contact
+    success_message = "Contact Deleted!"
+    success_url = reverse_lazy("contacts")
