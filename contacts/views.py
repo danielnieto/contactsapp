@@ -15,7 +15,7 @@ from .forms import ContactForm
 
 class ContactsListView(ListView):
     model = Contact
-    template_name = "contacts/index.html"
+    template_name = "contacts/list.html"
     context_object_name = "contacts"
 
     def get_queryset(self):
@@ -42,7 +42,7 @@ class ContactsDetailView(DetailView):
 
 class ContactsCreateView(SuccessMessageMixin, CreateView):
     model = Contact
-    template_name = "contacts/new.html"
+    template_name = "contacts/create.html"
     form_class = ContactForm
     success_url = reverse_lazy("contacts")
     success_message = "Created New Contact"
@@ -50,7 +50,7 @@ class ContactsCreateView(SuccessMessageMixin, CreateView):
 
 class ContactsUpdateView(SuccessMessageMixin, UpdateView):
     model = Contact
-    template_name = "contacts/edit.html"
+    template_name = "contacts/update.html"
     form_class = ContactForm
     success_message = "Contact Updated!"
 
