@@ -46,6 +46,10 @@ class ContactsCRUDView(View):
         view = ContactsDeleteView.as_view()
         return view(request, *args, **kwargs)
 
+    def post(self, request, *args, **kwargs):
+        view = ContactsUpdateView.as_view()
+        return view(request, *args, **kwargs)
+
 
 class ContactsDetailView(DetailView):
     model = Contact
