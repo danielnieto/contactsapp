@@ -4,4 +4,5 @@
        {% include "django/forms/widgets/attrs.html" %}
        hx-get="{% url 'validate_email' %}"
        hx-target="next .error"
+       hx-trigger="change, keyup delay:200ms changed"
        {% if widget.value != None %}hx-vals='{"current": "{{ widget.value|stringformat:'s' }}"}'{% endif %}>
