@@ -8,7 +8,11 @@
                 <p>
                     {{ field.label_tag }}
                     {{ field }}
-                    {% for error in field.errors %}<p class="box bad">{{ error }}</p>{% endfor %}
+                    <div class="error">
+                        {% for error in field.errors %}
+                            {% include "contacts/form_error.html" with error=error %}
+                        {% endfor %}
+                    </div>
                 </p>
             {% endfor %}
             <button>Save</button>

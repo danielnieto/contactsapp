@@ -1,5 +1,6 @@
 from django import forms
 from .models import Contact
+from .widgets import EmailHTMXWidget
 
 
 class ContactForm(forms.ModelForm):
@@ -10,3 +11,4 @@ class ContactForm(forms.ModelForm):
             "first": "First Name",
             "last": "Last Name",
         }
+        widgets = {"email": EmailHTMXWidget()}

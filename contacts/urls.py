@@ -13,4 +13,5 @@ urlpatterns = [
         views.ContactsUpdateView.as_view(),
         name="contacts_update",
     ),
+    path("contacts/validate", views.validate_email, name="validate_email"),
 ]

@@ -1,5 +1,7 @@
+from django.http import HttpResponse
 from django.urls import reverse_lazy, reverse
 from contacts.models import Contact
+from django.shortcuts import render
 from django.db.models import Q
 from django.views.generic import (
     View,
@@ -84,3 +86,18 @@ class ContactsDeleteView(DeleteView):
         response.status_code = 303
         messages.success(request, self.success_message)
         return response
+
+
+def validate_email(request):
+    email = request.GET.get("email", "")
+    current = request.GET.get("current", "")
+
+    if current.casefold() == email.casefold():
+        return HttpResponse("")
+
+    if Contact.objects.filter(email=email).exists():
+        return render(
+            request, "contacts/form_error.html", {"error": "Email already exists"}
+        )
+
+    return HttpResponse("")
