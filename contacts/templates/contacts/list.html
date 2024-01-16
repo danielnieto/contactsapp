@@ -24,7 +24,7 @@
                     <td>{{ contact.email }}</td>
                     <td>
                         <a href="{% url 'contacts_update' pk=contact.id %}">Edit</a>
-                        <a href="{% url 'contacts_detail' pk=contact.id %}">View</a>
+                        <a href="{% url 'contacts_crud' pk=contact.id %}">View</a>
                     </td>
                 </tr>
             {% endfor %}

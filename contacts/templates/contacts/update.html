@@ -15,10 +15,13 @@
         </fieldset>
     </form>
     <p>
-        <form action="{% url 'contacts_delete' pk=contact.id %}" method="post">
-            {% csrf_token %}
-            <button class="bad color border bg">Delete Contact</button>
-        </form>
+        <p>
+            <button hx-delete="{% url 'contacts_crud' pk=contact.id %}"
+                    hx-target="body"
+                    hx-push-url="true"
+                    hx-confirm="Are you sure you want to delete this contact?"
+                    class="bad color border bg">Delete Contact</button>
+        </p>
         <a href="{% url 'contacts' %}">Back</a>
     </p>
 {% endblock content %}

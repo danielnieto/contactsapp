@@ -2,6 +2,7 @@ from django.urls import reverse_lazy, reverse
 from contacts.models import Contact
 from django.db.models import Q
 from django.views.generic import (
+    View,
     ListView,
     DetailView,
     DeleteView,
@@ -9,6 +10,7 @@ from django.views.generic import (
     UpdateView,
 )
 from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib import messages
 
 from .forms import ContactForm
 
@@ -35,6 +37,16 @@ class ContactsListView(ListView):
         return context
 
 
+class ContactsCRUDView(View):
+    def get(self, request, *args, **kwargs):
+        view = ContactsDetailView.as_view()
+        return view(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        view = ContactsDeleteView.as_view()
+        return view(request, *args, **kwargs)
+
+
 class ContactsDetailView(DetailView):
     model = Contact
     template_name = "contacts/detail.html"
@@ -58,7 +70,13 @@ class ContactsUpdateView(SuccessMessageMixin, UpdateView):
         return reverse("contacts_update", kwargs={"pk": self.object.id})
 
 
-class ContactsDeleteView(SuccessMessageMixin, DeleteView):
+class ContactsDeleteView(DeleteView):
     model = Contact
     success_message = "Contact Deleted!"
     success_url = reverse_lazy("contacts")
+
+    def delete(self, request, *args, **kwargs):
+        response = super().delete(request, *args, **kwargs)
+        response.status_code = 303
+        messages.success(request, self.success_message)
+        return response
