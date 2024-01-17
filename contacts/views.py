@@ -21,6 +21,7 @@ class ContactsListView(ListView):
     model = Contact
     template_name = "contacts/list.html"
     context_object_name = "contacts"
+    paginate_by = 10
 
     def get_queryset(self):
         search = self.request.GET.get("q")
