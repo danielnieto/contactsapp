@@ -28,16 +28,19 @@
                     </td>
                 </tr>
             {% endfor %}
+            {% if page_obj.has_next %}
+                <tr>
+                    <td colspan="5" class="text-align:center">
+                        <button hx-target="closest tr"
+                                hx-swap="outerHTML"
+                                hx-select="tbody > tr"
+                                hx-get="{% url 'contacts' %}?page={{ page_obj.next_page_number }}">Load More</button>
+                    </td>
+                </tr>
+            {% endif %}
         </tbody>
     </table>
     <p>
         <a href="{% url 'contacts_create' %}">Add Contact</a>
     </p>
-    <div class="pagination center">
-        <span>
-            {% if page_obj.has_previous %}<a href="?page={{ page_obj.previous_page_number }}">←</a>{% endif %}
-            <span>{{ page_obj.number }}/{{ page_obj.paginator.num_pages }}</span>
-            {% if page_obj.has_next %}<a href="?page={{ page_obj.next_page_number }}">→</a>{% endif %}
-        </span>
-    </div>
 {% endblock content %}
