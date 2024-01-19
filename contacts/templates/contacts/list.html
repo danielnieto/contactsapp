@@ -1,46 +1,23 @@
-{% extends "contactsapp/base.html" %}
-{% block content %}
-    <form action="{% url 'contacts' %}" method="get" class="tool-bar">
-        <label for="search">Search Term</label>
-        <input id="search" type="search" name="q" value="{{ search | default:'' }}" />
-        <input type="submit" value="Search" />
-    </form>
-    <table class="width:100%">
-        <thead>
-            <tr>
-                <th>First</th>
-                <th>Last</th>
-                <th>Phone</th>
-                <th>Email</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for contact in contacts %}
-                <tr>
-                    <td>{{ contact.first }}</td>
-                    <td>{{ contact.last }}</td>
-                    <td>{{ contact.phone }}</td>
-                    <td>{{ contact.email }}</td>
-                    <td>
-                        <a href="{% url 'contacts_update' pk=contact.id %}">Edit</a>
-                        <a href="{% url 'contacts_crud' pk=contact.id %}">View</a>
-                    </td>
-                </tr>
-            {% endfor %}
-            {% if page_obj.has_next %}
-                <tr>
-                    <td colspan="5" class="text-align:center">
-                        <button hx-target="closest tr"
-                                hx-swap="outerHTML"
-                                hx-select="tbody > tr"
-                                hx-get="{% url 'contacts' %}?page={{ page_obj.next_page_number }}">Load More</button>
-                    </td>
-                </tr>
-            {% endif %}
-        </tbody>
-    </table>
-    <p>
-        <a href="{% url 'contacts_create' %}">Add Contact</a>
-    </p>
-{% endblock content %}
+{% for contact in contacts %}
+    <tr>
+        <td>{{ contact.first }}</td>
+        <td>{{ contact.last }}</td>
+        <td>{{ contact.phone }}</td>
+        <td>{{ contact.email }}</td>
+        <td>
+            <a href="{% url 'contacts_update' pk=contact.id %}">Edit</a>
+            <a href="{% url 'contacts_crud' pk=contact.id %}">View</a>
+        </td>
+    </tr>
+{% endfor %}
+{% if page_obj.has_next %}
+    <tr>
+        <td colspan="5" class="text-align:center">
+            <span hx-target="closest tr"
+                  hx-trigger="revealed"
+                  hx-swap="outerHTML"
+                  hx-select="tbody > tr"
+                  hx-get="{% url 'contacts' %}?page={{ page_obj.next_page_number }}">Loading more...</span>
+        </td>
+    </tr>
+{% endif %}

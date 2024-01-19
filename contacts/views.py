@@ -39,6 +39,12 @@ class ContactsListView(ListView):
         context["search"] = self.request.GET.get("q")
         return context
 
+    def get_template_names(self):
+        if self.request.headers.get("HX-Trigger") == "search":
+            return ["contacts/list.html"]
+
+        return ["contacts/index.html"]
+
 
 class ContactsCRUDView(View):
     def get(self, request, *args, **kwargs):
