@@ -7,6 +7,10 @@
         <td>
             <a href="{% url 'contacts_update' pk=contact.id %}">Edit</a>
             <a href="{% url 'contacts_crud' pk=contact.id %}">View</a>
+            <a hx-delete="{% url 'contacts_crud' pk=contact.id %}"
+               hx-target="body"
+               hx-confirm="Are you sure you want to delete this contact?"
+               class="bad color">Delete</a>
         </td>
     </tr>
 {% endfor %}
