@@ -7,6 +7,7 @@ urlpatterns = [
     path("", RedirectView.as_view(pattern_name="contacts"), name="index"),
     path("contacts", views.ContactsListView.as_view(), name="contacts"),
     path("contacts/create", views.ContactsCreateView.as_view(), name="contacts_create"),
+    path("contacts/count", views.contacts_count, name="contacts_count"),
     path("contacts/<int:pk>", views.ContactsCRUDView.as_view(), name="contacts_crud"),
     path(
         "contacts/<int:pk>/update",

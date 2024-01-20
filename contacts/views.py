@@ -46,6 +46,11 @@ class ContactsListView(ListView):
         return ["contacts/index.html"]
 
 
+def contacts_count(request):
+    count = Contact.objects.count()
+    return HttpResponse(f"({count} total Contacts)")
+
+
 class ContactsCRUDView(View):
     def get(self, request, *args, **kwargs):
         view = ContactsDetailView.as_view()
