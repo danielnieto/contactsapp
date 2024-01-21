@@ -30,7 +30,8 @@
     </table>
     <p>
         <a href="{% url 'contacts_create' %}">Add Contact</a>
-        <span hx-get="{% url 'contacts_count' %}" hx-trigger="revealed">
+        <span hx-get="{% url 'contacts_count' %}"
+              hx-trigger="revealed, updatecount from:body">
             {% include "contacts/indicator.html" with indicator_id="indicator-counts" %}
         </span>
     </p>

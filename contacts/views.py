@@ -96,7 +96,7 @@ class ContactsDeleteView(DeleteView):
     def delete(self, request, *args, **kwargs):
         response = super().delete(request, *args, **kwargs)
         if self.request.headers.get("HX-Trigger", "").startswith("inline-delete"):
-            return HttpResponse("")
+            return HttpResponse("", headers={"HX-Trigger": "updatecount"})
         response.status_code = 303
         messages.success(request, self.success_message)
         return response
