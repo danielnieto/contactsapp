@@ -7,6 +7,12 @@
               content="Contact Management, Address Book, Contact Organizer, Manage Contacts, Contact Storage, Contact Information, Address Book App, Contact List, Contact Sync, Contact Database">
         <link rel="stylesheet" href="https://unpkg.com/missing.css@1.1.1">
         <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+        <style>
+        tr.contact-row.htmx-swapping {
+          opacity: 0;
+          transition: opacity .3s ease-out;
+        }
+        </style>
     </head>
     <body hx-boost="true" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
         <main class="flow-gap">
