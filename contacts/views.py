@@ -1,3 +1,4 @@
+from urllib.parse import parse_qs
 from django.http import HttpResponse
 from django.urls import reverse_lazy, reverse
 from contacts.models import Contact
@@ -44,6 +45,14 @@ class ContactsListView(ListView):
             return ["contacts/list.html"]
 
         return ["contacts/index.html"]
+
+    def delete(self, request, *args, **kwargs):
+        ids_to_delete = parse_qs(request.body.decode("utf-8")).get(
+            "selected_contact_ids", []
+        )  # I should not expect to get the body from a DELETE request
+        Contact.objects.filter(id__in=ids_to_delete).delete()
+        messages.success(request, f"{len(ids_to_delete)} contacts deleted!")
+        return self.get(request)
 
 
 def contacts_count(request):

@@ -14,20 +14,27 @@
         <input type="submit" value="Search" />
         {% include "contacts/indicator.html" with indicator_id="indicator" %}
     </form>
-    <table class="width:100%">
-        <thead>
-            <tr>
-                <th>First</th>
-                <th>Last</th>
-                <th>Phone</th>
-                <th>Email</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            {% include "contacts/list.html" %}
-        </tbody>
-    </table>
+    <form>
+        <table class="width:100%">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>First</th>
+                    <th>Last</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% include "contacts/list.html" %}
+            </tbody>
+        </table>
+        <button style="margin-top: 1em"
+                hx-delete="{% url 'contacts' %}"
+                hx-confirm="Are you sure you want to delete the selected contacts?"
+                hx-target="body">Delete selected contacts</button>
+    </form>
     <p>
         <a href="{% url 'contacts_create' %}">Add Contact</a>
         <span hx-get="{% url 'contacts_count' %}"
