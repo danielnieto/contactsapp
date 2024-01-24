@@ -12,6 +12,13 @@
           opacity: 0;
           transition: opacity .3s ease-out;
         }
+        td {
+          vertical-align:middle;
+          padding: .5em;
+        }
+        tr:nth-child(even) {
+          background-color: #a6d12011;
+        }
         </style>
     </head>
     <body hx-boost="true" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
