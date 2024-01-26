@@ -1,5 +1,6 @@
 {% extends "contactsapp/base.html" %}
 {% block content %}
+    {% include "contacts/archive_ui.html" %}
     <form action="{% url 'contacts' %}" method="get" class="tool-bar">
         <label for="search">Search Term</label>
         <input id="search"

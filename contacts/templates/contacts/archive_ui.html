@@ -1,0 +1,19 @@
+<div id="archive-ui" hx-target="this" hx-swap="outerHTML">
+    {% if archiver.status == 'waiting' %}
+        <button hx-post="{% url 'contacts_archive' %}">Download Contact Archive</button>
+    {% elif archiver.status == 'running' %}
+        <div hx-get="{% url 'contacts_archive' %}" hx-trigger="load delay:500ms">
+            Creating Archive...
+            <div class="progress">
+                <div id="archive-progress"
+                     class="progress-bar"
+                     role="progressbar"
+                     aria-valuenow="{{ archiver.progress }}"
+                     style="width:{{ archiver.progress }}%"></div>
+            </div>
+        </div>
+    {% elif archiver.status == 'complete' %}
+        <a hx-boost="false" href="{% url 'download_archive_file' %}">Archive Ready!  Click here to download. ↓</a>
+        <button style="margin-left: 1em;" hx-delete="{% url 'contacts_archive' %}">Clear Download</button>
+    {% endif %}
+</div>

@@ -1,7 +1,7 @@
 from urllib.parse import parse_qs
 from django.http import HttpResponse
 from django.urls import reverse_lazy, reverse
-from contacts.models import Contact
+from contacts.models import Contact, Archiver
 from django.shortcuts import render
 from django.db.models import Q
 from django.views.generic import (
@@ -38,6 +38,7 @@ class ContactsListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["search"] = self.request.GET.get("q")
+        context["archiver"] = Archiver()
         return context
 
     def get_template_names(self):
@@ -124,3 +125,32 @@ def validate_email(request):
         )
 
     return HttpResponse("")
+
+
+class ContactsArchive(View):
+    def render_with_archiver_context(self, archiver):
+        context = dict(archiver=archiver)
+        return render(self.request, "contacts/archive_ui.html", context=context)
+
+    def post(self, request):
+        archiver = Archiver()
+        archiver.run()
+        return self.render_with_archiver_context(archiver)
+
+    def get(self, request):
+        return self.render_with_archiver_context(Archiver())
+
+    def delete(self, request):
+        archiver = Archiver()
+        archiver.reset()
+        return self.render_with_archiver_context(archiver)
+
+
+class ContactsArchiveDownload(View):
+    def get(self, request):
+        csv_file = Contact.objects.export_to_csv()
+        response = HttpResponse(
+            csv_file.read().encode("utf-8"), content_type="text/csv"
+        )
+        response["Content-Disposition"] = 'attachment; filename="contacts.csv"'
+        return response
