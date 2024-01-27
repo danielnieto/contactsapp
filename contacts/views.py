@@ -97,6 +97,11 @@ class ContactsUpdateView(SuccessMessageMixin, UpdateView):
     def get_success_url(self):
         return reverse("contacts_update", kwargs={"pk": self.object.id})
 
+    def form_invalid(self, *args, **kwargs):
+        response = super().form_invalid(*args, **kwargs)
+        response["HX-Replace-Url"] = self.get_success_url()
+        return response
+
 
 class ContactsDeleteView(DeleteView):
     model = Contact
