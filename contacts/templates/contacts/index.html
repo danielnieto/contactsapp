@@ -11,6 +11,7 @@
                hx-trigger="search, keyup delay:200ms changed"
                hx-target="tbody"
                hx-push-url="true"
+               hx-sync="this:replace"
                hx-indicator="#indicator" />
         <input type="submit" value="Search" />
         {% include "contacts/indicator.html" with indicator_id="indicator" %}
