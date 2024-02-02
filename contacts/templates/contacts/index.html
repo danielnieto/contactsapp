@@ -16,7 +16,23 @@
         <input type="submit" value="Search" />
         {% include "contacts/indicator.html" with indicator_id="indicator" %}
     </form>
-    <form>
+    <form x-data="{selected: []}">
+        <div x-cloak x-show="selected.length > 0">
+            <div class="box info tool-bar">
+                <span x-text="selected.length"></span>
+                contacts selected
+                <button type="button"
+                        class="bad bg color border"
+                        hx-delete="{% url 'contacts' %}"
+                        hx-trigger="confirmed"
+                        hx-target="body"
+                        @click="confirm(`Delete ${selected.length} contacts?`) && $dispatch('confirmed')">
+                    Delete
+                </button>
+                <hr aria-orientation="vertical">
+                <button type="button" @click="selected = []">Cancel</button>
+            </div>
+        </div>
         <table class="width:100%">
             <thead>
                 <tr>
@@ -32,10 +48,6 @@
                 {% include "contacts/list.html" %}
             </tbody>
         </table>
-        <button style="margin-top: 1em"
-                hx-delete="{% url 'contacts' %}"
-                hx-confirm="Are you sure you want to delete the selected contacts?"
-                hx-target="body">Delete selected contacts</button>
     </form>
     <p>
         <a href="{% url 'contacts_create' %}">Add Contact</a>

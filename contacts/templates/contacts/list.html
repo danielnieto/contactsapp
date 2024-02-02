@@ -1,7 +1,10 @@
 {% for contact in contacts %}
     <tr class="contact-row">
         <td>
-            <input type="checkbox" name="selected_contact_ids" value="{{ contact.id }}">
+            <input type="checkbox"
+                   name="selected_contact_ids"
+                   value="{{ contact.id }}"
+                   x-model="selected">
         </td>
         <td>{{ contact.first }}</td>
         <td>{{ contact.last }}</td>
