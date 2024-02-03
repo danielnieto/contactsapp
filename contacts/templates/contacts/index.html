@@ -16,7 +16,8 @@
         <input type="submit" value="Search" />
         {% include "contacts/indicator.html" with indicator_id="indicator" %}
     </form>
-    <form x-data="{selected: []}">
+    <form x-data="{selected: []}"
+          @keyup.escape.document="$dispatch('close-menu')">
         <div x-cloak x-show="selected.length > 0">
             <div class="box info tool-bar">
                 <span x-text="selected.length"></span>
