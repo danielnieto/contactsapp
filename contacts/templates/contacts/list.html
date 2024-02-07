@@ -17,13 +17,12 @@
                         aria-controls="contact-menu-{{ contact.id }}"
                         @click="isOpen=!isOpen">Options</button>
                 <div role="menu"
-                     hx-preserve
-                     x-cloak
-                     x-transition
+                     style="display:none"
                      x-show="isOpen"
-                     id="contact-menu-{{ contact.id }}"
+                     x-transition
                      @click.outside="isOpen=false"
-                     @close-menu.document="isOpen=false">
+                     @keyup.escape.document="isOpen=false"
+                     id="contact-menu-{{ contact.id }}">
                     <a role="menuitem" href="{% url 'contacts_update' pk=contact.id %}">Edit</a>
                     <a role="menuitem" href="{% url 'contacts_crud' pk=contact.id %}">View</a>
                     <a role="menuitem"

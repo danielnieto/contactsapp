@@ -17,8 +17,7 @@
         {% include "contacts/indicator.html" with indicator_id="indicator" %}
     </form>
     <form x-data="{selected: []}"
-          @confirm-inline-delete="selected.indexOf($event.detail.id) > -1 && selected.splice(selected.indexOf($event.detail.id), 1)"
-          @keyup.escape.document="$dispatch('close-menu')">
+          @confirm-inline-delete="selected.indexOf($event.detail.id) > -1 && selected.splice(selected.indexOf($event.detail.id), 1)">
         <div x-cloak x-show="selected.length > 0" x-transition>
             <div class="box info tool-bar">
                 <span x-text="selected.length"></span>
@@ -26,9 +25,9 @@
                 <button type="button"
                         class="bad bg color border"
                         hx-delete="{% url 'contacts' %}"
-                        hx-trigger="confirmed"
+                        hx-trigger="confirm-bulk-delete"
                         hx-target="body"
-                        @click="confirm(`Delete ${selected.length} contacts?`) && $dispatch('confirmed')">
+                        @click="confirm(`Delete ${selected.length} contacts?`) && $dispatch('confirm-bulk-delete')">
                     Delete
                 </button>
                 <hr aria-orientation="vertical">
