@@ -17,8 +17,9 @@
         {% include "contacts/indicator.html" with indicator_id="indicator" %}
     </form>
     <form x-data="{selected: []}"
+          @confirm-inline-delete="selected.indexOf($event.detail.id) > -1 && selected.splice(selected.indexOf($event.detail.id), 1)"
           @keyup.escape.document="$dispatch('close-menu')">
-        <div x-cloak x-show="selected.length > 0">
+        <div x-cloak x-show="selected.length > 0" x-transition>
             <div class="box info tool-bar">
                 <span x-text="selected.length"></span>
                 contacts selected
